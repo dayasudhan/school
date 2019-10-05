@@ -225,7 +225,8 @@ $scope.trackerUpdateStatus = function(param1)
 
       $scope.addDetails = function (param) {
       console.log("addDetails 1");
-
+      console.log($scope.schoolemail);
+      console.log($scope.schoolname);
       var url = "/v1/school/info/";
        url = url + param;
       var postData={
