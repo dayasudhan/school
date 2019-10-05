@@ -1,7 +1,6 @@
-
-
 var CustomerInfoModel = require('../app/models/customerInfo');
-
+var StudentModel = require('../app/models/studentinfo');
+var SchoolModel = require('../app/models/schoolnfo');
 var CountersModel = require('../app/models/counters');
 var OtpModel = require('../app/models/otp');
 var Firebase = require("firebase");
@@ -360,9 +359,28 @@ app.get('/p/admin_order_today', function (req, res) {
     console.log(req.user);
     res.render('admin_order_today', { user : req.user });
 });
+app.get('/p/vendor_order', function (req, res) {
+    console.log(req.user);
+    res.render('vendor_order', { user : req.user });
+});
 
+app.get('/p/vendor_summary', function (req, res) {
+    res.render('vendor_order_summary', { user : req.user });
+});
 
+app.get('/p/vendor_menu', function (req, res) {
+    res.render('vendor_menu', { user : req.user });
+});
+app.get('/p/vendor_details', function (req, res) {
+    res.render('vendor_details', { user : req.user });
+});
+app.get('/p/vendor_login', function (req, res) {
+    res.render('vendor_login', { user : req.user });
+});
 
+app.get('/p/vendor_signup', function(req, res) {
+    res.render('vendor_signup', { });
+});
 app.post('/reset', function(req, res, next) {
 console.log(req.body);
   if(req.body.password != req.body.password2)
@@ -561,6 +579,7 @@ function registerCustomer2(req, res, next)
         });
 
   });
+};
 function getNextSequence(name,result)
 {
    
@@ -650,8 +669,49 @@ app.delete( '/v1/admin/counters/:id', function( request, response ) {
         });
     //});
 });
-};
 
+app.get( '/v1/admin/counters', function( request, response ) {
+    console.log("/v1/admin/counters");
+  	if(checkVendorApiAunthaticated(request,0) == false)
+	{
+		return response.send("Not aunthiticated").status(403);
+	}
+    return CountersModel.find(function( err, order ) {
+        if( !err ) {
+            console.log("no error");
+            return response.send( order );
+        } else {
+            console.log("error");
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+});
+app.post( '/v1/admin/counters/:id', function( request, response ) {
+    console.log("post /v1/admin/counters");
+  	if(checkVendorApiAunthaticated(request,0) == false)
+	{
+		return response.send("Not aunthiticated").status(403);
+	}
+    console.log(request.params.id);
+     //var dd = {'cityName':"dvg",'subAreas':[{'name':"rajajinagar"},{'name':"vijaynagar"}]};
+     var dd = {_id:request.params.id,
+                sequence:0};
+    console.log("post /v1/admin/counters 2");
+      var counters = new CountersModel(
+         dd);
+         console.log("post /v1/admin/counters 3");
+        return counters.save(function( err) {
+        if( !err ) {
+            console.log("no error");
+            console.log(counters);
+            return response.send(counters);
+        } else {
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+});
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
@@ -666,12 +726,110 @@ function isLoggedIn(req, res, next) {
 
     res.redirect('/');
 }
+app.get( '/v1/school/info/:id', function( request, response ) {
+    console.log("GET --/v1/school/info/");
+   	// if(checkVendorApiAunthaticated(request,1) == false && request.isAuthenticated() == false)
+	// {
+	// 	return response.send("Not aunthiticated").status(403);
+	// }
+    return SchoolModel.find({ 'email':request.params.id},function( err, vendor ) {
+        if( !err ) {
+            console.log(vendor);
+            return response.send( vendor );
+        } else {
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+});
+    
+app.get( '/v1/school/infoall', function( request, response ) {
+    console.log("GET --/v1/school/info/all");
+   	// if(checkVendorApiAunthaticated(request,1) == false && request.isAuthenticated() == false)
+	// {
+	// 	return response.send("Not aunthiticated").status(403);
+	// }
+    return SchoolModel.find(function( err, vendor ) {
+        if( !err ) {
+            console.log(vendor);
+            return response.send( vendor );
+        } else {
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+});
 
+app.post( '/v1/school/info/:id', function( req, res ) {
+    // if(checkVendorApiAunthaticated(req,1) == false && req.isAuthenticated() == false)
+    // {
+    //     return res.send("Not aunthiticated").status(403);
+    // }
+      console.log("storeSchoolInfo post");
+      console.log(req.body);
+      storeSchoolInfo(req,res,function(req,res){
+               console.log("storeSchoolInfo success");
+               
+            });
+    
+      });
+    
 
+function storeSchoolInfo(request,response,callback,params)
+{
+console.log("storeSchoolInfo");
+console.log(request.params.id);
 
-
-
-
-
+SchoolModel.update({ 'username':request.params.id},
+    {
+        phone:request.body.phone ,
+        name:request.body.name ,
+        email:request.body.email
+        },
+        function( err ) {
+        if( !err ) {
+            console.log( 'storeSchoolInfo created' );
+            callback(request,response);
+            return ;
+        } else {
+        console.log( 'storeVendorInfo error' );
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+}
+function registerVendor(req, res, next) {
+    console.log("/registerVendor");
+    console.log(req.body.email);
+    var hotel_id = "R";
+    var res = getNextSequence('school',function(data) {
+  
+      hotel_id = hotel_id + data.sequence;
+      console.log(hotel_id);
+  
+        var vendorInfo = new StudentModel({
+          username:req.body.email,
+          id:hotel_id
+        });
+        vendorInfo.save( function( err ) {
+          if( !err ) {
+                console.log( 'registerVendor created' );
+                console.log(req.body.email);
+                    req.session.save(function (err) {
+                      if (err) {
+                          console.log( 'registerVendor save error' );
+                        return next(err);
+                      }
+                      console.log( 'registerVendor save complete' );
+                    });
+                return ;
+                } else {
+                  console.log( 'registerVendor error' );
+                  console.log( err );
+                  return response.send('ERROR');
+                }
+          });
+      });
+  };
 //module.exports = router;
 }

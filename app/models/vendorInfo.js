@@ -30,6 +30,7 @@ var mongoose = require('mongoose');
         phone:Number,
         id:String,
         email:String,
+        
         menu:[{
                feedername: String,  
                feederno:String,

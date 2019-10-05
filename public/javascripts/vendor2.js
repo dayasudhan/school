@@ -226,13 +226,13 @@ $scope.trackerUpdateStatus = function(param1)
       $scope.addDetails = function (param) {
       console.log("addDetails 1");
 
-       var url = "/v1/vendor/feeder";
-    //   url = url + param;
+      var url = "/v1/school/info/";
+       url = url + param;
       var postData={
-        feederno:$scope.feederno,
-        feedername:$scope.feedername
+        phone:$scope.schoolphone,
+        name:$scope.schoolname,
+        email:$scope.schoolemail
        };
-
       $http.post(url,postData)
         .success(function (data, status, headers, config)
         {
