@@ -807,7 +807,7 @@ function registerVendor(req, res, next) {
       hotel_id = hotel_id + data.sequence;
       console.log(hotel_id);
   
-        var vendorInfo = new StudentModel({
+        var vendorInfo = new SchoolModel({
           username:req.body.email,
           id:hotel_id
         });
