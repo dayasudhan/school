@@ -779,7 +779,7 @@ function storeSchoolInfo(request,response,callback,params)
 {
 console.log("storeSchoolInfo");
 console.log(request.params.id);
-
+console.log(request.body);
 SchoolModel.update({ 'username':request.params.id},
     {
         phone:request.body.phone ,
