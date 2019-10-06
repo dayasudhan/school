@@ -178,7 +178,7 @@ app.post('/login', function(req, res, next) {
       }
        else if(req.body.role == 'vendor') 
        {
-        redirect_url = '/p/vendor_details';
+        redirect_url = '/p/school_details';
          return res.redirect(redirect_url);
        }
      
@@ -359,20 +359,19 @@ app.get('/p/admin_order_today', function (req, res) {
     console.log(req.user);
     res.render('admin_order_today', { user : req.user });
 });
-app.get('/p/vendor_order', function (req, res) {
+app.get('/p/school_details', function (req, res) {
     console.log(req.user);
-    res.render('vendor_order', { user : req.user });
+    res.render('school_details', { user : req.user });
+});
+app.get('/p/student_details', function (req, res) {
+    res.render('student_details', { user : req.user });
 });
 
-app.get('/p/vendor_summary', function (req, res) {
-    res.render('vendor_order_summary', { user : req.user });
+app.get('/p/student_attendence', function (req, res) {
+    res.render('student_attendence', { user : req.user });
 });
-
-app.get('/p/vendor_menu', function (req, res) {
-    res.render('vendor_menu', { user : req.user });
-});
-app.get('/p/vendor_details', function (req, res) {
-    res.render('vendor_details', { user : req.user });
+app.get('/p/student_markssheet', function (req, res) {
+    res.render('student_markssheet', { user : req.user });
 });
 app.get('/p/vendor_login', function (req, res) {
     res.render('vendor_login', { user : req.user });
@@ -470,7 +469,7 @@ console.log(req.body);
         }
         else if(req.body.role == 'vendor') 
         {
-          redirect_url = '/p/vendor_details';
+          redirect_url = '/p/school_details';
           registerVendor(req, res, next);
           return res.redirect(redirect_url);
         }
