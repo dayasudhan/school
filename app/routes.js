@@ -732,7 +732,7 @@ app.get( '/v1/school/info/:id', function( request, response ) {
 	// {
 	// 	return response.send("Not aunthiticated").status(403);
 	// }
-    return SchoolModel.find({ 'email':request.params.id},function( err, vendor ) {
+    return SchoolModel.find({ 'username':request.params.id},function( err, vendor ) {
         if( !err ) {
             console.log(vendor);
             return response.send( vendor );
@@ -789,6 +789,44 @@ SchoolModel.update({ 'username':request.params.id},
         function( err ) {
         if( !err ) {
             console.log( 'storeSchoolInfo created' );
+            callback(request,response);
+            return ;
+        } else {
+        console.log( 'storeVendorInfo error' );
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+}
+app.post( '/v1/student/info/:id', function( req, res ) {
+    // if(checkVendorApiAunthaticated(req,1) == false && req.isAuthenticated() == false)
+    // {
+    //     return res.send("Not aunthiticated").status(403);
+    // }
+      console.log("storestudentInfo post");
+      console.log(req.body);
+      storeStudentInfo(req,res,function(req,res){
+               console.log("storestudentInfo success");
+               
+            });
+    
+      });
+function storeStudentInfo(request,response,callback,params)
+{
+console.log("storeStudentInfo");
+console.log(request.params.id);
+console.log(request.body);
+SchoolModel.update({ 'username':request.params.id},
+    {
+        studentInfo:{
+        phone:request.body.phone ,
+        name:request.body.name ,
+        email:request.body.email
+        }
+    },
+        function( err ) {
+        if( !err ) {
+            console.log( 'storeStudentInfo created' );
             callback(request,response);
             return ;
         } else {

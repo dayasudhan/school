@@ -247,7 +247,31 @@ $scope.trackerUpdateStatus = function(param1)
            alert("addDetails error");
         });
     };
+    
+    $scope.addStudentDetails = function (param) {
+      console.log("addDetails 1");
+      console.log($scope.studentemail);
+      console.log($scope.studentname);
+      var url = "/v1/student/info/";
+       url = url + param;
+      var postData={
+        phone:$scope.studentphone,
+        name:$scope.studentname,
+        email:$scope.studentemail
+       };
+      $http.post(url,postData)
+        .success(function (data, status, headers, config)
+        {
+            console.log("addDetails success");
+            alert("addDetails success");
 
+        })
+        .error(function (data, status, headers, config)
+        {
+          console.log("addDetails error");
+           alert("addDetails error");
+        });
+    };
       $scope.getDetails = function (param) {
       console.log("getDetails");
       console.log(param);

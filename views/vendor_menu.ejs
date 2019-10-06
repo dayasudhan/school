@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Data Tables</title>
+    <title>Bescom Shift Chart</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -20,7 +20,9 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-       
+    <script type="text/javascript"
+     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,15 +31,15 @@
     <![endif]-->
   </head>
   <body class="hold-transition skin-blue sidebar-mini" ng-app="vendorModule">
-    <div class="wrapper"  ng-controller="menuController">
+    <div class="wrapper"  ng-controller="DetailsController">
 
-      <header class="main-header" data-ng-init="getMenuList('<%= user.local.email %>')"  >
+      <header class="main-header" data-ng-init="getDetails('<%= user.local.email %>')"  >
         <!-- Logo -->
         <a href="../../index2.html" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>A</b>LT</span>
+          <span class="logo-mini"><b>School Software</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Vendor</b></span>
+          <span class="logo-lg"><b>School</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -138,10 +140,10 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">LABELS</li>
-            <li><a href="/p/vendor_order"><i class="fa fa-circle-o text-red"></i> <span>Order List</span></a></li>
-            <li><a href="/p/vendor_summary"><i class="fa fa-circle-o text-yellow"></i> <span>Order summary</span></a></li>
-            <li><a href="/p/vendor_menu"><i class="fa fa-circle-o text-aqua"></i> <span>Menu</span></a></li>
-            <li><a href="/p/vendor_details"><i class="fa fa-circle-o text-aqua"></i> <span>About Me</span></a></li>
+            <li><a href="/p/vendor_details"><i class="fa fa-circle-o text-red"></i> <span>School Details</span></a></li>
+            <li><a href="/p/vendor_menu"><i class="fa fa-circle-o text-yellow"></i> <span>Student Details</span></a></li>
+            <li><a href="/p/vendor_order"><i class="fa fa-circle-o text-aqua"></i> <span>School Details2</span></a></li>
+                    <li><a href="/p/vendor_order_summary"><i class="fa fa-circle-o text-aqua"></i> <span>About Me</span></a></li>
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -149,7 +151,18 @@
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+              Student Details
+            <!-- <small>advanced tables</small> -->
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Tables</a></li>
+            <li class="active">Data tables</li>
+          </ol>
+        </section>
 
 
 
@@ -157,144 +170,297 @@
         <section class="content">
           <div class="row">
 
-            <div class="col-xs-12">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">Menu Table</h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>Serial No</th>
-                        <th>FeederNo</th>
-                        <th>FeederName</th>
-                         <th>Timings</th>
-                        <th>Delete</th> 
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="menu in menuList">
-                        <td>{{$index +1}}</td>
-                        <td>{{menu.feederno}}</td>
-                        <td>{{menu.feedername}}</td>
-                        <td>{{menu.timings}}</td> 
-                       <!-- <td><input type="checkbox" 
-                          name="myTextEditBox" 
-                          value={{menu.name}}
-                           ng-checked="selection.indexOf(menu) > -1"
-                           ng-click="toggleSelection(menu)">
-                        </td>  -->
-                        <td><button type="submit" class="btn btn-info pull-right" ng-click= "deleteMenu('<%= user.local.email %>',menu)">Delete</button></td>
-
-                      </tr>
-                     
-                    </tbody>
-
-                  </table>
-                  
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div><!-- /.col -->
-              <div class="col-xs-12">
+              <div class="col-xs-8">
 <!-- Horizontal Form -->
               <div class="box box-info">
                 <div class="box-header with-border">
-                  <h3 class="box-title">MenuAdd</h3>
+                  <h3 class="box-title">Enter School Details</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form class="form-horizontal">
-                  <div class="box-body"> 
-                    
-                    <div class="form-group">
-                      
-                      <label for="inputtime" class="col-sm-2 control-label">Week</label>
-                      <div class="col-sm-10">
-                         Start date:
-                        <input type="date" ng-model = "startdate" >
-                            End date:
-                        <input type="date" ng-model = "enddate" >
-                      
-                      </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail3"name="City"  class="col-sm-2 control-label">Feeder No</label>
-                        <div class="col-sm-10">
-                         <select  class="form-control select2" style="width: 100%;" ng-model = "selectedfeeder" 
-                              ng-options="feeders.indexOf(selectedfeeder) as selectedfeeder for selectedfeeder in feeders "  required >
-                            </select>
-                          </div>
-                      </div> 
-                    <!-- <div class="form-group">
-                      <label for="inputEmail3" class="col-sm-3 control-label">Feeder No</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" name="fooditem" placeholder="ItemName" ng-model = "feederno">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="inputPassword3" class="col-sm-3 control-label">Feeder Name</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" name="foodprice" placeholder="ItemPrice"  ng-model = "feedername">
-                      </div>
-                    </div> -->
-                     <!-- <div class="form-group">
-                      <label for="inputPassword3" class="col-sm-3 control-label">Description</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" name="fooddescription" placeholder="ItemDescription"  ng-model = "fooddescription">
-                      </div>
-                    </div>
+                <form class="form-horizontal" >
+                  <div class="box-body">
                      <div class="form-group">
-                      <label for="inputPassword3" class="col-sm-3 control-label">Logo</label>
+                      <label for="inputEmail3"  class="col-sm-2 control-label">Student Name</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" name="foodItemlogo" placeholder="Itemlogo"  ng-model = "foodItemlogo">
+                        <input type="text" class="form-control"  name="Feeder No"  placeholder={{feederno}} ng-model = "studentname" required>
+                      </div>
+                    </div>
+                    
+                        <div class="form-group">
+                         <label for="inputEmail3"  class="col-sm-2 control-label">Student Phone</label>
+                         <div class="col-sm-10">
+                           <input type="text" class="form-control"  name="Feeder Name"  placeholder={{feederName}} ng-model = "studentphone" required>
+                         </div>
+                        </div>
+                       
+                        <div class="form-group">
+                         <label for="inputEmail3"  class="col-sm-2 control-label">Student Email</label>
+                         <div class="col-sm-10">
+                           <input type="text" class="form-control"  name="Feeder No"  placeholder={{feederno}} ng-model = "studentemail" required>
+                         </div>
+                       
+<!--
+                    <div class="form-group">
+                      <label for="inputEmail3"  class="col-sm-2 control-label">Speciality</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control"  name="Speciality"  placeholder="Khaanavali" ng-model = "speciality" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEmail3"  class="col-sm-2 control-label">Veg/Non Veg</label>
+                      <div class="col-sm-10">
+                          <select class="form-control select2" style="width: 100%;" ng-model = "vegornonveg" required>
+                             <option>Vegetarain</option>
+                            <option>Non Vegetarain</option>
+
+                          </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEmail3"  class="col-sm-2 control-label">Phone</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control"  name="phone" placeholder="0" ng-model = "hotelphone" required>
+                      </div>
+                    </div> -->
+
+                    <!-- <div class="form-group">
+                      <label for="inputEmail3"  class="col-sm-2 control-label">Sub Station</label>
+                      <div class="col-sm-10">
+                          <select class="form-control select2" style="width: 100%;" ng-model = "stationname" required>
+                            <option>Chiluru</option>
+                            <option>Nyamathi</option>
+                            <option>Honnali</option>
+                            <option>Bidharagadde</option>
+
+                          </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputdeliverrange"  class="col-sm-2 control-label">Delivery Range in KM's</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control"  name="phone" placeholder="3" ng-model 
+                        = "deliverRange" 
+                        min="1" max="10"
+                        required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputdeliverrange"  class="col-sm-2 control-label">Delivery Time in minutes</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control"  name="phone" 
+                        min="0" max="90"
+                        placeholder="60" ng-model = "deliveryTime" required>
                       </div>
                     </div> -->
                     <!-- <div class="form-group">
-                      <label for="inputPassword3" class="col-sm-3 control-label">Timings</label>
+                      <label for="inputdeliverrange"  class="col-sm-2 control-label">Delivery Charge in Rupees's</label>
                       <div class="col-sm-10">
-                        <input type="number" class="form-control" name="timings" placeholder="timings"  ng-model = "timings">
+                        <input type="number" class="form-control"  name="phone" 
+                        min="0" max="200"
+                        placeholder="0" ng-model = "deliverCharge" required>
                       </div>
-                    </div> -->
-                  
+                    </div>
                     <div class="form-group">
-                      
-                        <label for="inputtime" class="col-sm-2 control-label">Day Shift</label>
-                        <div class="col-sm-10">
-                           Start time:
-                          <input type="time" ng-model = "daystarttime" >
-                              End time:
-                          <input type="time" ng-model = "dayendtime" >
-                          Support:
-                          <select ng-model = "daySupport" required>
-                               <option>Yes</option>
-                              <option>No</option>
+                      <label for="inputdeliverrange"  class="col-sm-2 control-label">Minimum Order in Rupees's</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control"  name="phone" 
+                        min="0" max="200"
+                        placeholder="0" ng-model = "minimumOrder" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEmail3"name="City"  class="col-sm-2 control-label">City</label>
+                      <div class="col-sm-10">
+                       <select  class="form-control select2" style="width: 100%;" ng-model = "selectedCity" 
+                            ng-options="cityCoverage.citys.indexOf(selectedCity) as selectedCity for selectedCity in cityCoverage.citys "  required >
                           </select>
                         </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                      <label for="inputdeliverareas"  class="col-sm-2 control-label">Deliver Areas Covered</label>
+                      <div class="col-sm-10">
+                          <select multiple class="form-control select2" style="width: 100%;" ng-model = "deliverareas" ng-options="o for o in cityCoverage[selectedCity].subAreas track by o"  required>
+                        </select>
                       </div>
-                      <div class="form-group">
-                          <label for="inputtime" class="col-sm-2 control-label">Night Shift</label>
-                          <div class="col-sm-10">
-                             Start time:
-                            <input type="time" ng-model = "nightstarttime" >
-                                End time:
-                            <input type="time" ng-model = "nightendtime" >
-                            Support:
-                            <select ng-model = "nightSupport" required>
-                                 <option>Yes</option>
-                                <option>No</option>
-                            </select> 
-                          </div>
-                        </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Address1</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control"  name="Address1" placeholder="Address1" ng-model = "hotelAddress1">
+                      </div>
+                    </div> -->
+                    <!--div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Address2</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control"  name="Address1" placeholder={{hotelName}} ng-model = "hotelAddress2">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Street</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control"  name="street" placeholder={{hotelName}} ng-model = "hotelStreet">
+                      </div>
+                    </div-->
+
+                    <!-- <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Areaname</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" name="Areaname" placeholder="Areaname" ng-model = "hotelAreaname" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEmail3"name="Landmark" class="col-sm-2 control-label">Landmark</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control"  name="Landmark" placeholder="Landmark" ng-model = "hotelLandmark">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">zip</label>
+                      <div class="col-sm-10">
+                        <input type="Number" class="form-control"  name="zip" placeholder="zip" ng-model = "hotelzip" required>
+                      </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                      <label for="inputEmail3" name="latitude"  class="col-sm-2 control-label">latitude</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" name="latitude" placeholder="latitude" ng-model = "latitude" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEmail3"name="longitude"  class="col-sm-2 control-label">longitude</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" name="longitude" placeholder="longitude" ng-model = "longitude">
+                      </div>
+                    </div> -->
+                   
+                    
+                    <!-- <div class="form-group">
+                      <label for="inputtime" class="col-sm-2 control-label">Morning</label>
+                      <div class="col-sm-10">
+                         Start time:
+                        <input type="time" ng-model = "morningstarttime" >
+                            End time:
+                        <input type="time" ng-model = "morningendtime" >
+                        Support:
+                        <select ng-model = "morningSupportTime" required>
+                             <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                      </div>
+                    </div> -->
+
+                     <!-- <div class="form-group">
+                      <label for="inputtime" class="col-sm-2 control-label">Lunch</label>
+                      <div class="col-sm-10">
+                         Start time:
+                        <input type="time" ng-model = "lunchstarttime" >
+                            End time:
+                        <input type="time" ng-model = "lunchendtime" >
+                        Support:
+                        <select ng-model = "lunchSupportTime" required>
+                             <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                      </div>
+                    </div> -->
+
+                     <!-- <div class="form-group">
+                      <label for="inputtime" class="col-sm-2 control-label">Dinner</label>
+                      <div class="col-sm-10">
+                         Start time:
+                        <input type="time" ng-model = "dinnerstarttime" >
+                            End time:
+                        <input type="time" ng-model = "dinnerendtime" >
+                         Support:
+                        <select ng-model = "dinnerSupportTime" required>
+                             <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                      </div>
+                                
+                    </div> -->
+
+
+
+
+                    <!-- <div class="form-group">
+                      <label for="inputdeliverrange"  class="col-sm-2 control-label">Bulk Delivery Range in KM's</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control"  name="bulkdeliverRange" placeholder="3" ng-model 
+                        = "bulkdeliverRange" 
+                        min="1" max="100"
+                        required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputdeliverrange"  class="col-sm-2 control-label">Bulk Delivery Time in minutes</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control"  name="bulkdeliveryTime" 
+                        min="0" max="600"
+                        placeholder="60" ng-model = "bulkdeliveryTime" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputdeliverrange"  class="col-sm-2 control-label">Bulk Delivery Charge in Rupees's</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control"  name="bulkdeliverCharge" 
+                        min="0" max="2000"
+                        placeholder="0" ng-model = "bulkdeliverCharge" required>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputdeliverrange"  class="col-sm-2 control-label">Bulk Minimum Order in Rupees's</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control"  name="bulkminimumOrder" 
+                       
+                        placeholder="0" ng-model = "bulkminimumOrder" required>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputdeliverareas"  class="col-sm-2 control-label">Bulk Deliver Areas Covered</label>
+                      <div class="col-sm-10">
+                          <select multiple class="form-control select2" style="width: 100%;" ng-model = "bulkdeliverareas" ng-options="o for o in cityCoverage[selectedCity].subAreas track by o"  required="">
+                        </select>
+                      </div>
+                    </div> -->
+
+
+
                   </div><!-- /.box-body -->
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-info pull-right" ng-click= "addMenu('<%= user.local.email %>')">Add Item</button>
+                    <button type="submit" class="btn btn-info pull-right" ng-click= "addStudentDetails('<%= user.local.email %>')">Submit</button>
 
                      <!--button type="submit" class="btn btn-default" onclick="menu_add(this.form,'<%= user.local.email %>')">Submit</button>&nbsp;<a href="/"-->
                   </div><!-- /.box-footer -->
                 </form>
               </div><!-- /.box -->
               </div>
+              <div class="col-xs-4">
+<!-- Horizontal Form -->
+              <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">LogoAdd</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form class="form-horizontal">
+                  <div class="form-group">
+                      <label for="exampleInputFile" class="col-sm-2 control-label">Logo</label>
+                      <div class="col-sm-10">
+                        <input type="file" name="file" id="logoinputfile" onchange="angular.element(this).scope().addLogo('<%= user.local.email %>',this.files)">
+                      </div>
+                    </div>
+                  <!--div class="box-footer">
+                    <button type="submit" class="btn btn-info pull-right" ng-click= "addLogo('<%= user.local.email %>')">Add Logo</button>
+
+                  </div><!-- /.box-footer -->
+                </form>
+              </div>/.box
+              </div>
           </div><!-- /.row -->
+
         </section><!-- /.content -->
 
 
@@ -501,6 +667,10 @@
           "ordering": true,
           "info": true,
           "autoWidth": false
+        });
+       $('#datetimepicker2').datetimepicker({
+        language: 'en',
+        pick12HourFormat: true
         });
       });
     </script>
