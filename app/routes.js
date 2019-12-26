@@ -1,5 +1,6 @@
 var CustomerInfoModel = require('../app/models/customerInfo');
 var StudentModel = require('../app/models/studentinfo');
+var ClassInfoModel = require('../app/models/classinfo');
 var SchoolModel = require('../app/models/schoolnfo');
 var CountersModel = require('../app/models/counters');
 var OtpModel = require('../app/models/otp');
@@ -729,7 +730,7 @@ app.get( '/v1/school/info/:id', function( request, response ) {
     console.log("GET --/v1/school/info/");
    	// if(checkVendorApiAunthaticated(request,1) == false && request.isAuthenticated() == false)
 	// {
-	// 	return response.send("Not aunthiticated").status(403);
+	// 	return response.send("Not auntthiticated").status(403);
 	// }
     return SchoolModel.find({ 'username':request.params.id},function( err, vendor ) {
         if( !err ) {
@@ -772,8 +773,63 @@ app.post( '/v1/school/info/:id', function( req, res ) {
             });
     
       });
-    
-
+      app.get( '/v1/class/info/:id', function( request, response ) {
+        console.log("GET --/v1/school/info/");
+           // if(checkVendorApiAunthaticated(request,1) == false && request.isAuthenticated() == false)
+        // {
+        // 	return response.send("Not auntthiticated").status(403);
+        // }
+        return ClassInfoModel.find({ '_id':request.params.id},function( err, vendor ) {
+            if( !err ) {
+                console.log(vendor);
+                return response.send( vendor );
+            } else {
+                console.log( err );
+                return response.send('ERROR');
+            }
+        });
+    });
+    app.post( '/v1/class/info/:classid/:scoolid/:classteacher', function( request, response ) {
+        var dd = {_id:request.params.classid,
+            schoolId:request.params.scoolid,
+            classteacher:request.params.classteacher};
+console.log("post /v1/admin/counters 2");
+  var classm = new ClassInfoModel(
+     dd);
+     console.log("post /v1/admin/counters 3");
+    return classm.save(function( err) {
+    if( !err ) {
+        console.log("no error");
+        console.log(classm);
+        return response.send(classm);
+    } else {
+        console.log( err );
+        return response.send('ERROR');
+    }
+});
+    });
+    app.post( '/v1/class/timetable/:id', function( request, response ) {
+        console.log("storeStudentInfo");
+console.log(request.params.id);
+console.log(request.body);
+console.log(request.body.timetable);
+ClassInfoModel.update({ '_id':request.params.id},
+    {
+        timeTable:request.body.timetable
+    },
+        function( err ) {
+        if( !err ) {
+            console.log( 'storetimetable created' );
+       //     callback(request,response);
+            return response.send('SUccess');;
+        } else {
+        console.log( 'storeVendorInfo error' );
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+        
+          });
 function storeSchoolInfo(request,response,callback,params)
 {
 console.log("storeSchoolInfo");

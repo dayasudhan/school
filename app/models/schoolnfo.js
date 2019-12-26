@@ -24,15 +24,20 @@ var SchoolSchema = new mongoose.Schema({
         phone:Number,
         email:String,
         name:String,
-        class:String,
+        standard:String,
         section:String,
+        gender:String,
+        dob:String,
+        bloodGroup:String,
+        isDayschooler:String,
+        admissionNo:String,
+        admissionDate:String,
         schoolid:String,
         attendence:{
 
         },
-        marks_sheet:{
-
-        },
+        result:[{subject_name:String, date_of_exam:String,score:String,status:String,title:String,action:String}],
+       
         address:{
             label:String, 
             addressLine1:String,
@@ -58,7 +63,7 @@ var SchoolSchema = new mongoose.Schema({
             },
         },
         vaninfo:{
-            driverinf:{
+            driverinfo:{
 
             },treackinfo:{
 

@@ -264,7 +264,6 @@ $scope.trackerUpdateStatus = function(param1)
         {
             console.log("addDetails success");
             alert("addDetails success");
-
         })
         .error(function (data, status, headers, config)
         {
