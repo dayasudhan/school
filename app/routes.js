@@ -928,7 +928,7 @@ app.post( '/v1/student/name/:id/:name', function( request, response ) {
     }
 });
 });
-app.post( '/v1/student/result/:id', function( request, response ) {
+app.post( '/v1/student/result3/:id', function( request, response ) {
     console.log("storeStudentInfo");
     console.log(request.params.id);
     console.log(request.body.result);
@@ -977,7 +977,7 @@ app.post( '/v1/student/result2/:id', function( request, response ) {
     }
 });
 });
-app.post( '/v1/student/result3/:id', function( request, response ) {
+app.post( '/v1/student/result/:id', function( request, response ) {
     console.log("storeStudentInfo");
     console.log(request.params.id);
     console.log(request.body);
