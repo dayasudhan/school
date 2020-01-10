@@ -814,7 +814,70 @@ app.post( '/v1/student/name/:id/:name', function( request, response ) {
     }
 });
 });
-
+app.get( '/v1/student/info/:id', function( request, response ) {
+    console.log("GET --/v1/school/info/id");
+       // if(checkVendorApiAunthaticated(request,1) == false && request.isAuthenticated() == false)
+    // {
+    // 	return response.send("Not aunthiticated").status(403);
+    // }
+    return StudentModel.find({ 'id':request.params.id},function( err, vendor ) {
+        if( !err ) {
+            console.log(vendor);
+            return response.send( vendor );
+        } else {
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+});
+app.get( '/v1/student/result/:id', function( request, response ) {
+    console.log("GET --/v1/school/result");
+       // if(checkVendorApiAunthaticated(request,1) == false && request.isAuthenticated() == false)
+    // {
+    // 	return response.send("Not aunthiticated").status(403);
+    // }
+    return StudentModel.find({ 'id':request.params.id},function( err, vendor ) {
+        if( !err ) {
+            console.log(vendor);
+            return response.send( vendor[0].result );
+        } else {
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+});
+app.get( '/v1/student/notifications/:id', function( request, response ) {
+    console.log("GET --/v1/school/notifications");
+       // if(checkVendorApiAunthaticated(request,1) == false && request.isAuthenticated() == false)
+    // {
+    // 	return response.send("Not aunthiticated").status(403);
+    // }
+    return StudentModel.find({ 'id':request.params.id},function( err, vendor ) {
+        if( !err ) {
+            console.log(vendor);
+            return response.send( vendor[0].notifications );
+        } else {
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+});
+app.get( '/v1/student/attendence/:id', function( request, response ) {
+    console.log("GET --/v1/school/attendence");
+       // if(checkVendorApiAunthaticated(request,1) == false && request.isAuthenticated() == false)
+    // {
+    // 	return response.send("Not aunthiticated").status(403);
+    // }
+    return StudentModel.find({ 'id':request.params.id},function( err, vendor ) {
+        if( !err ) {
+            console.log(vendor);
+            return response.send( vendor[0].attendence );
+        } else {
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+});
 app.post( '/v1/student/result/:id', function( request, response ) {
     console.log("storeStudentInfo");
     console.log(request.params.id);
