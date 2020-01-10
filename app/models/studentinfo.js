@@ -21,10 +21,9 @@ var StudentSchema = new mongoose.Schema({
     // },
     result:[{exam_title:String,
              subject_name:String, date_of_exam:String,marks:Number,
-                max_marks:Number,status:String,action:String,grade:String,time:String}]
- ,
+                max_marks:Number,status:String,action:String,grade:String,time:String}],
     attendence:[{ 
-        date:Date,
+        date:String,
         present:Number
     }],
     // marks_sheet:{
@@ -37,9 +36,12 @@ var StudentSchema = new mongoose.Schema({
 
     },
     notifications:
-    {
-
-    },
+    [{ 
+        title:String,
+        date: String,
+        message:String,
+        audience:String
+    }],
     address:{
         label:String, 
 		addressLine1:String,

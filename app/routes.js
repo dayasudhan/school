@@ -481,105 +481,7 @@ console.log(req.body);
       });
     })(req, res, next);
 });
-function registerCustomer(req, res, next) {
-  console.log("/registerCustomer");
-  var cus_id = "C";
-  var res = getNextSequence('customer',function(data) {
 
-    cus_id = cus_id + data.sequence;
-    console.log(cus_id);
-      var customerInfo = new CustomerInfoModel({
-        email:req.body.email2,
-        id:cus_id,
-        phone:req.body.email,
-        name:req.body.name
-      });
-
-      customerInfo.save( function( err ) {
-        if( !err ) {
-              console.log( 'registerCustomer created' );
-              console.log(req.body.email);
-                  req.session.save(function (err) {
-                    if (err) {
-                        console.log( 'registerCustomer save error' );
-                       next(err);
-                    }
-                    console.log( 'registerCustomer save complete' );
-                  });
-                  console.log( '463' );
-               next(customerInfo);
-              } else {
-                console.log( 'registerCustomer error' );
-                console.log( err );
-                return res.send('ERROR');
-              }
-        });
-    });
-};
-app.get( '/v1/test/customer', function( req, res ) {
-                req.body.email = "dayasudhankggg@gmail.com";
-                req.body.phoneNumber = "9987";
-                req.body.name = "dayas";
-                  registerCustomer2(req, res,function(data)
-                  {
-                     return res.send(data);
-                  });
-
-});
-
-function registerCustomer2(req, res, next)
-{
-        console.log("/registerCustomer2");
-        var cus_id = "C";
-        var result = getNextSequence('customer',function(data) {
-
-          cus_id = cus_id + data.sequence;
-          console.log(cus_id);
-          console.log(req.body);
-          console.log(req.body.phoneNumber);
-          var phoneNumber = parseInt(req.body.phoneNumber);
-          console.log(phoneNumber);
-          return CustomerInfoModel.findOneAndUpdate({ 'phone':phoneNumber},
-            {
-                  $set:{email:req.body.email,
-                  name:req.body.name}
-            },
-            function( err,customer ) {
-                if( !err ) {
-                    if(customer == null)
-                    {
-                        console.log( "empty" );
-                        var customer = new CustomerInfoModel({
-                                  email:req.body.email,
-                                  id:cus_id,
-                                  phone:req.body.phoneNumber,
-                                  name:req.body.name
-                        });
-                     
-                        console.log(req.body);
-                        customer.save( function( err ) {
-                            if( !err ) {
-                                console.log( 'created' );
-                                next( customer );
-                            } else {
-                             console.log( 'error' );
-                                console.log( err );
-                                next(err);
-                            }
-                        });
-                    } 
-
-                    console.log("register2 ");
-                    console.log(customer);
-                    return  next(customer);
-            } else {
-                console.log( err );
-                return next('ERROR');
-            }
-        });
-
-  });
-};
 function getNextSequence(name,result)
 {
    
@@ -694,23 +596,7 @@ app.post( '/v1/admin/counters/:id', function( request, response ) {
 		return response.send("Not aunthiticated").status(403);
 	}
      console.log(request.params.id);
-    //  //var dd = {'cityName':"dvg",'subAreas':[{'name':"rajajinagar"},{'name':"vijaynagar"}]};
-    //  var dd = {_id:request.params.id,
-    //             sequence:0};
-    // console.log("post /v1/admin/counters 2");
-    //   var counters = new CountersModel(
-    //      dd);
-    //      console.log("post /v1/admin/counters 3");
-    //     return counters.save(function( err) {
-    //     if( !err ) {
-    //         console.log("no error");
-    //         console.log(counters);
-    //         return response.send(counters);
-    //     } else {
-    //         console.log( err );
-    //         return response.send('ERROR');
-    //     }
-    // });
+   
     response.send(registerCounter(request.params.id));
 });
 function registerCounter(params)
@@ -928,55 +814,7 @@ app.post( '/v1/student/name/:id/:name', function( request, response ) {
     }
 });
 });
-app.post( '/v1/student/result3/:id', function( request, response ) {
-    console.log("storeStudentInfo");
-    console.log(request.params.id);
-    console.log(request.body.result);
-    //console.log(request.body);
-   // console.log(request.body.timetable);
-    StudentModel.update({ 'id':request.params.id},
-    {
-        result:request.body.result
-    },
-    
-//result:[{subject_name:String, date_of_exam:String,marks:String,status:String,title:String,action:String}],
-   
-    function( err ) {
-    if( !err ) {
-        console.log( 'storetimetable created' );
-   //     callback(request,response);
-        return response.send('SUccess');;
-    } else {
-    console.log( 'storeVendorInfo error' );
-        console.log( err );
-        return response.send('ERROR');
-    }
-});
-});
-app.post( '/v1/student/result2/:id', function( request, response ) {
-    console.log("storeStudentInfo");
-    console.log(request.params.id);
-    console.log(request.body);
-    //console.log(request.body);
-   // console.log(request.body.timetable);
-    StudentModel.update({ 'id':request.params.id},
-    {
-      //  result:request.body.result,
-        $addToSet: {'result': {$each:[{exam_title: request.body.result.exam_title,  subject_name:request.body.result.subject_name}] }}
-    },
-    
-    function( err ) {
-    if( !err ) {
-        console.log( 'storetimetable created' );
-   //     callback(request,response);
-        return response.send('SUccess');;
-    } else {
-    console.log( 'storeVendorInfo error' );
-        console.log( err );
-        return response.send('ERROR');
-    }
-});
-});
+
 app.post( '/v1/student/result/:id', function( request, response ) {
     console.log("storeStudentInfo");
     console.log(request.params.id);
@@ -991,11 +829,60 @@ app.post( '/v1/student/result/:id', function( request, response ) {
     
     function( err ) {
     if( !err ) {
-        console.log( 'storetimetable created' );
+        console.log( 'storeresult created' );
    //     callback(request,response);
         return response.send('SUccess');;
     } else {
-    console.log( 'storeVendorInfo error' );
+    console.log( 'storeresult error' );
+        console.log( err );
+        return response.send('ERROR');
+    }
+});
+});
+
+app.post( '/v1/student/attendence/:id', function( request, response ) {
+    console.log("storeStudentInfo");
+    console.log(request.params.id);
+    console.log(request.body.attendence);
+    //console.log(request.body);
+   // console.log(request.body.timetable);
+    StudentModel.update({ 'id':request.params.id},
+    {
+      //  result:request.body.result,
+        $addToSet: {'attendence':  request.body.attendence }
+    },
+    
+    function( err ) {
+    if( !err ) {
+        console.log( 'storeattendence created' );
+   //     callback(request,response);
+        return response.send('SUccess');;
+    } else {
+    console.log( 'storeattendence error' );
+        console.log( err );
+        return response.send('ERROR');
+    }
+});
+});
+app.post( '/v1/student/notifications/:id', function( request, response ) {
+    console.log("storeStudentInfo");
+    console.log(request.params.id);
+    console.log(request.body.notifications);
+    //console.log(request.body);
+   // console.log(request.body.timetable);
+    StudentModel.update({ 'id':request.params.id},
+    {
+      //  result:request.body.result,
+        $addToSet: {'notifications':  request.body.notifications }
+    },
+    
+    function( err ) {
+    if( !err ) {
+        console.log( 'storenotifications created' );
+   //     callback(request,response);
+        return response.send('Success');;
+    } else {
+    console.log( 'storenotifications error' );
         console.log( err );
         return response.send('ERROR');
     }
@@ -1006,20 +893,7 @@ function storeStudentInfo(request,response,callback,params)
 console.log("storeStudentInfo 11");
 console.log(request.params.id);
 console.log(request.body);
-// SchoolModel.update({ 'username':request.params.id},
-// { $push: {studentInfo: {$each:[{name: request.body.name,  phone:request.body.phone,email:request.body.email}] }}},
-    
-//         function( err ) {
-//         if( !err ) {
-//             console.log( 'storeStudentInfo created' );
-//             callback(request,response);
-//             return ;
-//         } else {
-//         console.log( 'storeVendorInfo error' );
-//             console.log( err );
-//             return response.send('ERROR');
-//         }
-//     });
+
 var student_id = "S";
 var res = getNextSequence(request.body.schoolId,function(data) {
   
