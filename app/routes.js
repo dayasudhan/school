@@ -693,25 +693,46 @@ app.post( '/v1/admin/counters/:id', function( request, response ) {
 	{
 		return response.send("Not aunthiticated").status(403);
 	}
-    console.log(request.params.id);
-     //var dd = {'cityName':"dvg",'subAreas':[{'name':"rajajinagar"},{'name':"vijaynagar"}]};
-     var dd = {_id:request.params.id,
-                sequence:0};
-    console.log("post /v1/admin/counters 2");
-      var counters = new CountersModel(
-         dd);
-         console.log("post /v1/admin/counters 3");
-        return counters.save(function( err) {
-        if( !err ) {
-            console.log("no error");
-            console.log(counters);
-            return response.send(counters);
-        } else {
-            console.log( err );
-            return response.send('ERROR');
-        }
-    });
+     console.log(request.params.id);
+    //  //var dd = {'cityName':"dvg",'subAreas':[{'name':"rajajinagar"},{'name':"vijaynagar"}]};
+    //  var dd = {_id:request.params.id,
+    //             sequence:0};
+    // console.log("post /v1/admin/counters 2");
+    //   var counters = new CountersModel(
+    //      dd);
+    //      console.log("post /v1/admin/counters 3");
+    //     return counters.save(function( err) {
+    //     if( !err ) {
+    //         console.log("no error");
+    //         console.log(counters);
+    //         return response.send(counters);
+    //     } else {
+    //         console.log( err );
+    //         return response.send('ERROR');
+    //     }
+    // });
+    response.send(registerCounter(request.params.id));
 });
+function registerCounter(params)
+{
+         //var dd = {'cityName':"dvg",'subAreas':[{'name':"rajajinagar"},{'name':"vijaynagar"}]};
+         var dd = {_id:params,
+            sequence:0};
+console.log("post /v1/admin/counters 2");
+  var counters = new CountersModel(
+     dd);
+     console.log("post /v1/admin/counters 3");
+    return counters.save(function( err) {
+    if( !err ) {
+        console.log("no error");
+        console.log(counters);
+        return counters;
+    } else {
+        console.log( err );
+        return 'ERROR';
+    }
+});
+}
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
@@ -780,6 +801,23 @@ app.post( '/v1/school/info/:id', function( req, res ) {
         // 	return response.send("Not auntthiticated").status(403);
         // }
         return ClassInfoModel.find({ '_id':request.params.id},function( err, vendor ) {
+            if( !err ) {
+                console.log(vendor);
+                return response.send( vendor );
+            } else {
+                console.log( err );
+                return response.send('ERROR');
+            }
+        });
+    });
+    
+    app.get( '/v1/student/infoall', function( request, response ) {
+        console.log("GET --/v1/school/info/all");
+           // if(checkVendorApiAunthaticated(request,1) == false && request.isAuthenticated() == false)
+        // {
+        // 	return response.send("Not aunthiticated").status(403);
+        // }
+        return StudentModel.find(function( err, vendor ) {
             if( !err ) {
                 console.log(vendor);
                 return response.send( vendor );
@@ -861,45 +899,20 @@ app.post( '/v1/student/info/:id', function( req, res ) {
       console.log("storestudentInfo post");
       console.log(req.body);
       storeStudentInfo(req,res,function(req,res){
-               console.log("storestudentInfo success");
-               
-            });
-    
-            
+               console.log("storestudentInfo success");          
+            });           
       });
 
 
-app.post( '/v1/student/result/:id/:id2', function( request, response ) {
-        console.log("storeStudentInfo");
-        console.log(request.params.id);
-        //console.log(request.body);
-       // console.log(request.body.timetable);
-        SchoolModel.update({ 'studentInfo._id':request.params.id2},
-        {
-            $set:{"studentInfo.phone":request.params.id}
-        },
-    //result:[{subject_name:String, date_of_exam:String,score:String,status:String,title:String,action:String}],
-       
-        function( err ) {
-        if( !err ) {
-            console.log( 'storetimetable created' );
-       //     callback(request,response);
-            return response.send('SUccess');;
-        } else {
-        console.log( 'storeVendorInfo error' );
-            console.log( err );
-            return response.send('ERROR');
-        }
-    });
-});
-app.post( '/v1/student/name/:id/:id2', function( request, response ) {
+app.post( '/v1/student/name/:id/:name', function( request, response ) {
     console.log("storeStudentInfo");
     console.log(request.params.id);
+    console.log(request.params.name);
     //console.log(request.body);
    // console.log(request.body.timetable);
-    SchoolModel.update({ 'studentInfo._id':request.params.id2},
+    StudentModel.update({ 'id':request.params.id},
     {
-        $set:{"studentInfo.phone":request.params.id}
+        "name":request.params.name
     },
 //result:[{subject_name:String, date_of_exam:String,score:String,status:String,title:String,action:String}],
    
@@ -915,25 +928,131 @@ app.post( '/v1/student/name/:id/:id2', function( request, response ) {
     }
 });
 });
-
+app.post( '/v1/student/result/:id', function( request, response ) {
+    console.log("storeStudentInfo");
+    console.log(request.params.id);
+    console.log(request.body.result);
+    //console.log(request.body);
+   // console.log(request.body.timetable);
+    StudentModel.update({ 'id':request.params.id},
+    {
+        result:request.body.result
+    },
+    
+//result:[{subject_name:String, date_of_exam:String,marks:String,status:String,title:String,action:String}],
+   
+    function( err ) {
+    if( !err ) {
+        console.log( 'storetimetable created' );
+   //     callback(request,response);
+        return response.send('SUccess');;
+    } else {
+    console.log( 'storeVendorInfo error' );
+        console.log( err );
+        return response.send('ERROR');
+    }
+});
+});
+app.post( '/v1/student/result2/:id', function( request, response ) {
+    console.log("storeStudentInfo");
+    console.log(request.params.id);
+    console.log(request.body);
+    //console.log(request.body);
+   // console.log(request.body.timetable);
+    StudentModel.update({ 'id':request.params.id},
+    {
+      //  result:request.body.result,
+        $addToSet: {'result': {$each:[{exam_title: request.body.result.exam_title,  subject_name:request.body.result.subject_name}] }}
+    },
+    
+    function( err ) {
+    if( !err ) {
+        console.log( 'storetimetable created' );
+   //     callback(request,response);
+        return response.send('SUccess');;
+    } else {
+    console.log( 'storeVendorInfo error' );
+        console.log( err );
+        return response.send('ERROR');
+    }
+});
+});
+app.post( '/v1/student/result3/:id', function( request, response ) {
+    console.log("storeStudentInfo");
+    console.log(request.params.id);
+    console.log(request.body);
+    //console.log(request.body);
+   // console.log(request.body.timetable);
+    StudentModel.update({ 'id':request.params.id},
+    {
+      //  result:request.body.result,
+        $addToSet: {'result':  request.body.result }
+    },
+    
+    function( err ) {
+    if( !err ) {
+        console.log( 'storetimetable created' );
+   //     callback(request,response);
+        return response.send('SUccess');;
+    } else {
+    console.log( 'storeVendorInfo error' );
+        console.log( err );
+        return response.send('ERROR');
+    }
+});
+});
 function storeStudentInfo(request,response,callback,params)
 {
 console.log("storeStudentInfo 11");
 console.log(request.params.id);
 console.log(request.body);
-SchoolModel.update({ 'username':request.params.id},
-{ $push: {studentInfo: {$each:[{name: request.body.name,  phone:request.body.phone,email:request.body.email}] }}},
+// SchoolModel.update({ 'username':request.params.id},
+// { $push: {studentInfo: {$each:[{name: request.body.name,  phone:request.body.phone,email:request.body.email}] }}},
     
-        function( err ) {
+//         function( err ) {
+//         if( !err ) {
+//             console.log( 'storeStudentInfo created' );
+//             callback(request,response);
+//             return ;
+//         } else {
+//         console.log( 'storeVendorInfo error' );
+//             console.log( err );
+//             return response.send('ERROR');
+//         }
+//     });
+var student_id = "S";
+var res = getNextSequence(request.body.schoolId,function(data) {
+  
+    student_id = request.body.schoolId + student_id + data.sequence;
+    console.log(student_id);
+ var studentInfo = new StudentModel({
+        scoolusername:request.body.email,
+        name: request.body.name,  
+        phone:request.body.phone,
+        email:request.body.email,
+        schoolId:request.body.schoolId,
+        id:student_id
+    });
+    studentInfo.save( function( err ) {
         if( !err ) {
-            console.log( 'storeStudentInfo created' );
-            callback(request,response);
-            return ;
-        } else {
-        console.log( 'storeVendorInfo error' );
-            console.log( err );
-            return response.send('ERROR');
-        }
+              console.log( 'registerstudent created' );
+              console.log(request.body.email);
+              request.session.save(function (err) {
+                    if (err) {
+                      
+                        console.log( 'registerstudent save error' );
+                      return next(err);
+                    }
+                    //sregisterCounter(vendorInfo.id);
+                    console.log( 'registerstudent save complete' );
+                  });
+              return ;
+              } else {
+                console.log( 'registerstudent error' );
+                console.log( err );
+                return response.send('ERROR');
+              }
+        });
     });
 }
 function registerVendor(req, res, next) {
@@ -955,9 +1074,11 @@ function registerVendor(req, res, next) {
                 console.log(req.body.email);
                     req.session.save(function (err) {
                       if (err) {
+                        
                           console.log( 'registerVendor save error' );
                         return next(err);
                       }
+                      registerCounter(vendorInfo.id);
                       console.log( 'registerVendor save complete' );
                     });
                 return ;

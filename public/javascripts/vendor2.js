@@ -252,12 +252,14 @@ $scope.trackerUpdateStatus = function(param1)
       console.log("addDetails 1");
       console.log($scope.studentemail);
       console.log($scope.studentname);
+      console.log($scope.schoolId);
       var url = "/v1/student/info/";
        url = url + param;
       var postData={
         phone:$scope.studentphone,
         name:$scope.studentname,
-        email:$scope.studentemail
+        email:$scope.studentemail,
+        schoolId:$scope.schoolId
        };
       $http.post(url,postData)
         .success(function (data, status, headers, config)
@@ -271,11 +273,11 @@ $scope.trackerUpdateStatus = function(param1)
            alert("addDetails error");
         });
     };
-      $scope.getDetails = function (param) {
+      $scope.getSchoolDetails = function (param) {
       console.log("getDetails");
       console.log(param);
       $scope.getCityCoverage();
-      var url = "/v1/vendor/info/";
+      var url = "/v1/school/info/";
 
       url = url + param;
       // var postData={Name:$scope.hotelName, username: param, Address1:$scope.hotelAddress1, phone:$scope.hotelphone,
@@ -287,30 +289,30 @@ $scope.trackerUpdateStatus = function(param1)
         {
             console.log("getDetails success");
             console.log(data[0]);
-             $scope.hotelName = data[0].hotel.name;
-             $scope.hotelId = data[0].hotel.id;
-             $scope.hotelAddress1 =data[0].address.addressLine1;
-             $scope.hotelphone =data[0].phone;
-            $scope.hotelLandmark =data[0].address.LandMark;
-            $scope.hotelAreaname =data[0].address.areaName;
-            $scope.hotelcity =data[0].address.city;
-            $scope.hotelzip =data[0].address.zip;
-            $scope.latitude =data[0].address.latitude;
-            $scope.longitude =data[0].address.longitude;
-          //  $scope.vegornonveg =data[0].
-            $scope.speciality =data[0].speciality;
-            $scope.deliverRange =data[0].deliverRange;
-            $scope.deliverareas =data[0].deliverAreas;
-            $scope.minimumOrder =data[0].minimumOrder;
-            $scope.deliverCharge = data[0].deliverCharge;
-            $scope.deliveryTime = data[0].deliveryTime;
+              $scope.SchoolName = data[0].name;
+              $scope.schoolId = data[0].id;
+          //    $scope.hotelAddress1 =data[0].address.addressLine1;
+              $scope.SchoolPhone =data[0].phone;
+          //   $scope.hotelLandmark =data[0].address.LandMark;
+          //   $scope.hotelAreaname =data[0].address.areaName;
+          //   $scope.hotelcity =data[0].address.city;
+          //   $scope.hotelzip =data[0].address.zip;
+          //   $scope.latitude =data[0].address.latitude;
+          //   $scope.longitude =data[0].address.longitude;
+          // //  $scope.vegornonveg =data[0].
+          //   $scope.speciality =data[0].speciality;
+          //   $scope.deliverRange =data[0].deliverRange;
+          //   $scope.deliverareas =data[0].deliverAreas;
+          //   $scope.minimumOrder =data[0].minimumOrder;
+          //   $scope.deliverCharge = data[0].deliverCharge;
+          //   $scope.deliveryTime = data[0].deliveryTime;
 
-            $scope.isBulkVendor = data[0].isBulkVendor;
-            $scope.bulkdeliverCharge = data[0].bulkdeliverCharge;
-            $scope.bulkdeliverRange = data[0].bulkdeliverRange;
-            $scope.bulkminimumOrder = data[0].bulkminimumOrder;
-            $scope.bulkdeliveryTime
-
+          //   $scope.isBulkVendor = data[0].isBulkVendor;
+          //   $scope.bulkdeliverCharge = data[0].bulkdeliverCharge;
+          //   $scope.bulkdeliverRange = data[0].bulkdeliverRange;
+          //   $scope.bulkminimumOrder = data[0].bulkminimumOrder;
+          //   $scope.bulkdeliveryTime
+console.log($scope.schoolId);
         })
         .error(function (data, status, headers, config)
         {

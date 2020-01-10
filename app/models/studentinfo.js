@@ -13,8 +13,16 @@ var StudentSchema = new mongoose.Schema({
     isDayschooler:String,
     admissionNo:String,
     admissionDate:String,
-    schoolid:String,
-    result:[{subject_name:String, date_of_exam:String,score:String,status:String,title:String,action:String}],
+    schoolId:String,
+    scoolusername:String,
+    // result:{exam_title:String,
+    //         score:[{subject_name:String, date_of_exam:String,marks:Number,
+    //             max_marks:Number,status:String,action:String,grade:String,time:String}]
+    // },
+    result:[{exam_title:String,
+             subject_name:String, date_of_exam:String,marks:Number,
+                max_marks:Number,status:String,action:String,grade:String,time:String}]
+ ,
     attendence:{
 
     },
