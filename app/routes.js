@@ -865,20 +865,65 @@ app.post( '/v1/student/info/:id', function( req, res ) {
                
             });
     
+            
       });
+
+
+app.post( '/v1/student/result/:id/:id2', function( request, response ) {
+        console.log("storeStudentInfo");
+        console.log(request.params.id);
+        //console.log(request.body);
+       // console.log(request.body.timetable);
+        SchoolModel.update({ 'studentInfo._id':request.params.id2},
+        {
+            $set:{"studentInfo.phone":request.params.id}
+        },
+    //result:[{subject_name:String, date_of_exam:String,score:String,status:String,title:String,action:String}],
+       
+        function( err ) {
+        if( !err ) {
+            console.log( 'storetimetable created' );
+       //     callback(request,response);
+            return response.send('SUccess');;
+        } else {
+        console.log( 'storeVendorInfo error' );
+            console.log( err );
+            return response.send('ERROR');
+        }
+    });
+});
+app.post( '/v1/student/name/:id/:id2', function( request, response ) {
+    console.log("storeStudentInfo");
+    console.log(request.params.id);
+    //console.log(request.body);
+   // console.log(request.body.timetable);
+    SchoolModel.update({ 'studentInfo._id':request.params.id2},
+    {
+        $set:{"studentInfo.phone":request.params.id}
+    },
+//result:[{subject_name:String, date_of_exam:String,score:String,status:String,title:String,action:String}],
+   
+    function( err ) {
+    if( !err ) {
+        console.log( 'storetimetable created' );
+   //     callback(request,response);
+        return response.send('SUccess');;
+    } else {
+    console.log( 'storeVendorInfo error' );
+        console.log( err );
+        return response.send('ERROR');
+    }
+});
+});
+
 function storeStudentInfo(request,response,callback,params)
 {
-console.log("storeStudentInfo");
+console.log("storeStudentInfo 11");
 console.log(request.params.id);
 console.log(request.body);
 SchoolModel.update({ 'username':request.params.id},
-    {
-        studentInfo:{
-        phone:request.body.phone ,
-        name:request.body.name ,
-        email:request.body.email
-        }
-    },
+{ $push: {studentInfo: {$each:[{name: request.body.name,  phone:request.body.phone,email:request.body.email}] }}},
+    
         function( err ) {
         if( !err ) {
             console.log( 'storeStudentInfo created' );

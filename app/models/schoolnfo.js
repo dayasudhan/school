@@ -19,7 +19,7 @@ var SchoolSchema = new mongoose.Schema({
         latitude:Number,
         longitude:Number 
     },
-    studentInfo:{
+    studentInfo:[{
         id:String,
         phone:Number,
         email:String,
@@ -61,7 +61,7 @@ var SchoolSchema = new mongoose.Schema({
             mother_email:String,
             mother_profession:String
             },
-        },
+        }],
         vaninfo:{
             driverinfo:{
 

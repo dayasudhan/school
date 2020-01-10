@@ -1,14 +1,20 @@
 var mongoose = require('mongoose');
 //Schema
 var StudentSchema = new mongoose.Schema({
-	
-    id:String,
+	id:String,
     phone:Number,
     email:String,
     name:String,
-    class:String,
+    standard:String,
     section:String,
+    gender:String,
+    dob:String,
+    bloodGroup:String,
+    isDayschooler:String,
+    admissionNo:String,
+    admissionDate:String,
     schoolid:String,
+    result:[{subject_name:String, date_of_exam:String,score:String,status:String,title:String,action:String}],
     attendence:{
 
     },

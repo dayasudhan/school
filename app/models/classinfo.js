@@ -5,6 +5,10 @@ var ClassInfo = new mongoose.Schema({
     section:String,
     schoolId:String,
     classteacher:String,
+    examtimeTable:{
+        examType:String,
+        exam:[{subject_name:String, time:String, teacher:String}]
+   },
     timeTable: {
         monday:[{subject_name:String, time:String, teacher:String}],
         tuesday:[{subject_name:String, time:String, teacher:String}],
